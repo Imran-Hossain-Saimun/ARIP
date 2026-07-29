@@ -1,0 +1,80 @@
+/*
+  ARIP design tokens — §04 of `project/ARIP Design.dc.html`.
+  Maps 1:1 onto Tailwind v4 theme vars so utilities (bg-brand, text-text-secondary,
+  rounded-card, shadow-e1, ...) exist without touching component code when the
+  palette changes — edit only this file.
+*/
+@theme {
+  /* Neutral ramp */
+  --color-surface: #ffffff;
+  --color-surface-sunken: #f9fafb;
+  --color-canvas: #f5f6f8;
+  --color-border: #e4e8ec;
+  --color-border-strong: #cdd4db;
+  --color-text-muted: #6b7280;
+  --color-text-secondary: #4a5563;
+  --color-text-primary: #101827;
+
+  /* Brand (primary actions, links, selection) */
+  --color-brand: #1a56b0;
+  --color-brand-hover: #133f83;
+  --color-brand-tint: #eaf1fb;
+  --color-brand-border: #c3d8f3;
+
+  /* AI (anything machine-generated) */
+  --color-ai: #5b45cf;
+  --color-ai-tint: #f1eefc;
+  --color-ai-border: #d8cff8;
+
+  /* Semantic */
+  --color-success: #0a7a52;
+  --color-success-tint: #e6f5ee;
+  --color-success-border: #b9e2ce;
+  --color-warning: #a5620a;
+  --color-warning-tint: #fdf3e3;
+  --color-warning-border: #f0dcb4;
+  --color-danger: #b42318;
+  --color-danger-hover: #8f1c13;
+  --color-danger-tint: #fdeceb;
+  --color-danger-border: #f6cdc9;
+
+  /* Typography */
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --text-display: 30px;
+  --text-display--letter-spacing: -0.025em;
+  --text-h1: 20px;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h2: 15px;
+  --text-h2--letter-spacing: -0.01em;
+  --text-body: 13.5px;
+  --text-body--line-height: 1.6;
+  --text-small: 12px;
+  --text-overline: 11px;
+  --text-overline--letter-spacing: 0.06em;
+
+  /* Radius (spacing scale is Tailwind's default 4px base — sp-1..sp-8 map onto it directly) */
+  --radius-chip: 4px;
+  --radius-control: 6px;
+  --radius-card: 10px;
+
+  /* Elevation */
+  --shadow-e1: 0 1px 2px rgba(16, 24, 39, 0.06), 0 0 0 1px rgba(16, 24, 39, 0.05);
+  --shadow-e2: 0 12px 28px rgba(16, 24, 39, 0.13), 0 0 0 1px rgba(16, 24, 39, 0.06);
+
+  /* Layout constants */
+  --width-sidebar: 248px;
+  --width-sidebar-rail: 56px;
+  --width-drawer: 560px;
+  --width-modal: 640px;
+  --width-content-max: 1600px;
+
+  /* §06 responsive breakpoints — override Tailwind's defaults with the spec's exact
+     values so `md:`/`lg:`/`xl:` utilities land exactly on 834/1280/1600px, not the
+     framework's generic 768/1024/1280. */
+  --breakpoint-sm: 390px;
+  --breakpoint-md: 834px;
+  --breakpoint-lg: 1280px;
+  --breakpoint-xl: 1600px;
+}

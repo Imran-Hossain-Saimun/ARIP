@@ -1,0 +1,62 @@
+name: arip
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: arip
+      POSTGRES_PASSWORD: arip
+      POSTGRES_DB: arip
+    ports:
+      - "5434:5432" # 5432 taken by a native Windows postgres.exe service on this host
+    volumes:
+      - arip_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U arip -d arip"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6380:6379" # 6379 taken by another project's container on this host
+    volumes:
+      - arip_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: arip
+      MINIO_ROOT_PASSWORD: aripsecret
+    ports:
+      - "9000:9000" # S3 API
+      - "9001:9001" # Console
+    volumes:
+      - arip_minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: unless-stopped
+    ports:
+      - "1026:1025" # SMTP — 1025 silently claimed by a native Windows service on this host
+      - "8025:8025" # Web UI + API (used to fake IMAP/Graph inbound for local dev)
+
+volumes:
+  arip_postgres_data:
+  arip_redis_data:
+  arip_minio_data:

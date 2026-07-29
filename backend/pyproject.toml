@@ -1,0 +1,33 @@
+[project]
+name = "arip-backend"
+version = "0.1.0"
+description = "ARIP — AI Request Intelligence Platform backend (FastAPI)"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi",
+  "uvicorn[standard]",
+  "sqlalchemy",
+  "alembic",
+  "psycopg[binary]",
+  "pydantic",
+  "pydantic-settings",
+  "pgvector",
+  "redis",
+  "celery",
+  "python-jose[cryptography]",
+  "bcrypt",
+  "python-multipart",
+  "email-validator",
+  "anthropic",
+  "openai",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-mock", "httpx", "ruff"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
