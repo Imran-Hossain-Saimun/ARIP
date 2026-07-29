@@ -1,22 +1,32 @@
-# CODING AGENTS: READ THIS FIRST
+# ARIP — AI Request Intelligence Platform
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+AI request orchestration for a fictional bank ("Nordbank"): customer intake (web portal +
+email) → hybrid RAG retrieval → confidence-scored AI decision → business-rule override →
+auto-reply/draft/clarify/route → audit trail.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+FastAPI (modular monolith) + SQLAlchemy 2.0 + Alembic + Postgres/pgvector + Redis + MinIO
++ Mailhog backend. React 19 + TypeScript + Vite + Tailwind v4 + TanStack Query/Router/
+Table frontend.
 
-## What you should do — IMPORTANT
+## Getting started
 
-**Read `ai-request-intelligence-platform-design/project/ARIP Design.dc.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+See [`guideline/00-setup.md`](guideline/00-setup.md) for local setup from a clean clone —
+infra, backend, frontend, migrations, seed data, running tests.
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+## Documentation
 
-## About the design files
+- [`guideline/`](guideline/README.md) — how the app actually works: request lifecycle,
+  knowledge/retrieval, the AI pipeline, email processing, automation, RBAC/audit, and the
+  frontend-to-backend map, all with exact `file:line` code references.
+- [`tasks/`](tasks/README.md) — build history, one file per delivery increment.
+- `project/ARIP Design.dc.html` — the original design spec this was built from.
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+## Repo layout
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
-
-## Bundle contents
-
-- `ai-request-intelligence-platform-design/README.md` — this file
-- `ai-request-intelligence-platform-design/project/` — the `AI Request Intelligence Platform Design` project files (HTML prototypes, assets, components)
+```
+backend/    FastAPI app (app/<domain>/ router modules), Alembic migrations, seed data
+frontend/   React app (src/features/<domain>/), design system, TanStack Router
+guideline/  How the app works, with code references
+tasks/      Build history/changelog
+project/    Original design spec
+```

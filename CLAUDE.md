@@ -6,6 +6,8 @@ business-rule override → auto-reply/draft/clarify/route → audit trail. Built
 design spec at `project/ARIP Design.dc.html` (14 modules, 46 screens, 90 FRs, 8 roles).
 
 **Start here:**
+- `guideline/00-setup.md` — local setup from a clean clone (infra, backend, frontend,
+  migrations, seed data, running tests), every command verified.
 - `guideline/README.md` — how the app actually works, module by module, with exact
   `file:line` code citations. Read the relevant `guideline/0N-*.md` before answering "how
   does X work" questions instead of re-deriving from scratch.

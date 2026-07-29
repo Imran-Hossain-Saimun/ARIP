@@ -15,6 +15,7 @@ thing: a standing reference to the *logic*, not a changelog.
 
 | # | File | Covers |
 |---|------|--------|
+| 0 | [00-setup.md](00-setup.md) | Local setup from a clean clone — infra, backend, frontend, seed data, running tests, every command actually verified |
 | 1 | [01-request-lifecycle.md](01-request-lifecycle.md) | Request/Decision data model, every way a Request gets created, requests/decisions/portal API surface, approve/escalate/assign, idempotency, department scoping, realtime SSE |
 | 2 | [02-knowledge-and-retrieval.md](02-knowledge-and-retrieval.md) | Document ingestion (chunking/hierarchy/embedding), the draft→approve→index lifecycle, hybrid retrieval (vector + keyword + RRF fusion), knowledge gaps |
 | 3 | [03-ai-pipeline-and-llm-providers.md](03-ai-pipeline-and-llm-providers.md) | `run_pipeline()` stage-by-stage, confidence formula, business-rule override, every LLM/embedding call site, provider selection (Anthropic/OpenRouter/OpenAI/heuristic fallbacks) |
