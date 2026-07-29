@@ -68,20 +68,16 @@ it isn't, invoke the env's `python.exe`/`pip.exe` by their full path instead of 
 ### 2b. Install dependencies
 
 ```bash
-pip install fastapi "uvicorn[standard]" sqlalchemy alembic "psycopg[binary]" pydantic \
-  pydantic-settings pgvector redis celery "python-jose[cryptography]" bcrypt \
-  python-multipart email-validator anthropic openai pytest pytest-mock httpx ruff
+pip install -e ".[dev]"
 ```
-(the full list, split into runtime + `dev` extras, is `backend/pyproject.toml:6-26`.)
-
-**Do not run `pip install -e ".[dev]"`.** It fails — setuptools' automatic package
-discovery finds multiple top-level directories that look like packages (`app`,
-`alembic`, `seed`, `tests`) and refuses to guess which one is the distribution root:
-```
-error: Multiple top-level packages discovered in a flat-layout
-```
-There's no `src/` layout or explicit `packages =` list configured to resolve this, so
-install the dependencies directly (as above) rather than installing the project itself.
+Installs everything listed in `backend/pyproject.toml:6-26` (runtime deps + the `dev`
+extra: pytest, pytest-mock, httpx, ruff) in one shot, editable so code changes take
+effect without reinstalling. This relies on `[tool.setuptools] packages = ["app"]`
+(`pyproject.toml:28-29`) — without it, setuptools' automatic package discovery finds
+multiple top-level directories that look like packages (`app`, `alembic`, `seed`,
+`tests`) and refuses to guess which one is the distribution root
+(`error: Multiple top-level packages discovered in a flat-layout`). If you ever see that
+error, it means this line was removed from `pyproject.toml`.
 
 ### 2c. Configure environment
 
