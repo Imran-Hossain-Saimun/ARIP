@@ -15,6 +15,10 @@ class Settings(BaseSettings):
 
     anthropic_api_key: str | None = None
     openai_api_key: str | None = None
+    openrouter_api_key: str | None = None
+    openrouter_model: str = "openai/gpt-4o-mini"
+    openrouter_site_url: str | None = None
+    openrouter_site_name: str | None = None
 
     s3_endpoint_url: str = "http://localhost:9000"
     s3_access_key: str = "arip"

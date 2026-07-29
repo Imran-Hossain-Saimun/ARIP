@@ -1,7 +1,13 @@
 """Pluggable classification/generation provider (FR-088), mirroring
-`providers/embeddings.py`'s pattern: a real Anthropic-backed provider when
-`ANTHROPIC_API_KEY` is configured, else a deterministic keyword-based fallback so the
-full intake→decision pipeline runs end-to-end with zero external config."""
+`providers/embeddings.py`'s pattern: a real Anthropic- or OpenRouter-backed provider when
+an API key is configured, else a deterministic keyword-based fallback so the full
+intake→decision pipeline runs end-to-end with zero external config.
+
+OpenRouter (https://openrouter.ai) proxies chat completions for many model providers
+behind a single OpenAI-compatible API — useful when you have an OpenRouter key but not a
+direct Anthropic/OpenAI one. It does NOT expose an embeddings endpoint, so
+`OPENROUTER_API_KEY` alone doesn't upgrade `providers/embeddings.py` off its deterministic
+fallback — set `OPENAI_API_KEY` for real embeddings, or accept non-semantic retrieval."""
 
 from typing import Protocol
 
@@ -78,8 +84,38 @@ class AnthropicChatProvider:
             return _keyword_classify(text)  # malformed model output — fall back rather than crash the pipeline
 
 
+class OpenRouterChatProvider:
+    def __init__(self, api_key: str, model: str, site_url: str | None = None, site_name: str | None = None):
+        from openai import OpenAI
+
+        headers = {}
+        if site_url:
+            headers["HTTP-Referer"] = site_url
+        if site_name:
+            headers["X-Title"] = site_name
+        self._client = OpenAI(api_key=api_key, base_url="https://openrouter.ai/api/v1", default_headers=headers or None)
+        self._model = model
+
+    def classify(self, text: str) -> dict:
+        import json
+
+        prompt = (
+            "Classify this customer request. Respond with ONLY a JSON object with keys "
+            '"language" (ISO 639-1), "category" (one of: Legal, Compliance, Billing, '
+            'Technical Support, Complaint, General Inquiry), "intent" (a short snake_case '
+            'label), "intent_certainty" (0-1 float).\n\nRequest: ' + text
+        )
+        response = self._client.chat.completions.create(model=self._model, max_tokens=200, messages=[{"role": "user", "content": prompt}])
+        try:
+            return json.loads(response.choices[0].message.content)
+        except (ValueError, IndexError, AttributeError, TypeError):
+            return _keyword_classify(text)  # malformed model output — fall back rather than crash the pipeline
+
+
 def get_chat_provider() -> ChatProvider:
     settings = get_settings()
     if settings.anthropic_api_key:
         return AnthropicChatProvider(settings.anthropic_api_key)
+    if settings.openrouter_api_key:
+        return OpenRouterChatProvider(settings.openrouter_api_key, settings.openrouter_model, settings.openrouter_site_url, settings.openrouter_site_name)
     return HeuristicChatProvider()
