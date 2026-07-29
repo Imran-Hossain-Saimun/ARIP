@@ -14,5 +14,7 @@ One file per increment from the build order in `project/ARIP Design.dc.html` §1
 | 7 | [07-automation.md](07-automation.md) | done — verified live in Chrome |
 | 8 | [08-analytics-audit-admin-settings.md](08-analytics-audit-admin-settings.md) | done — verified live in Chrome |
 | 9 | [09-portal-pipeline-responsive.md](09-portal-pipeline-responsive.md) | done — verified live in Chrome |
+| 10 | [10-openrouter-provider.md](10-openrouter-provider.md) | done — verified live with real key |
 
-All 9 increments delivered. This closes the originally-scoped build.
+All 9 increments delivered. This closes the originally-scoped build. #10 is a post-build
+addition (OpenRouter chat provider), not part of the original plan.
