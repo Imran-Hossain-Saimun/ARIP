@@ -15,9 +15,11 @@ One file per increment from the build order in `project/ARIP Design.dc.html` §1
 | 8 | [08-analytics-audit-admin-settings.md](08-analytics-audit-admin-settings.md) | done — verified live in Chrome |
 | 9 | [09-portal-pipeline-responsive.md](09-portal-pipeline-responsive.md) | done — verified live in Chrome |
 | 10 | [10-openrouter-provider.md](10-openrouter-provider.md) | done — verified live with real key |
+| 11 | [11-role-adaptive-dashboard.md](11-role-adaptive-dashboard.md) | done — verified live in Chrome |
 
 All 9 increments delivered. This closes the originally-scoped build. #10 is a post-build
-addition (OpenRouter chat provider), not part of the original plan.
+addition (OpenRouter chat provider), not part of the original plan. #11 fills a gap the
+original build order left unassigned — `/` never got a real screen (see its file).
 
 This directory is build history/changelog — what shipped, when, what was verified. For
 how the app actually works today (data model, request lifecycle, AI pipeline, retrieval,

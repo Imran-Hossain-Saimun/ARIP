@@ -11,6 +11,7 @@ from app.analytics.router import router as analytics_router
 from app.audit.router import router as audit_router
 from app.auth.router import router as auth_router
 from app.automation.router import router as automation_router
+from app.dashboard.router import router as dashboard_router
 from app.decisions.router import router as decisions_router
 from app.email.router import router as email_router
 from app.knowledge.router import gaps_router, router as knowledge_router
@@ -62,6 +63,7 @@ def health() -> dict:
 
 app.include_router(auth_router)
 app.include_router(admin_router)
+app.include_router(dashboard_router)
 app.include_router(requests_router)
 app.include_router(decisions_router)
 app.include_router(knowledge_router)

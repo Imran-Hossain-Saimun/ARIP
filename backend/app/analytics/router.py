@@ -21,9 +21,16 @@ def get_kpis(
     _user=require_permission("analytics", Action.READ),
     days: int = Query(30, alias="range"),
 ) -> AnalyticsKpis:
+    return compute_kpis(db, days)
+
+
+def compute_kpis(db: Session, days: int) -> AnalyticsKpis:
     """BO-001..BO-005 from the BRD. Several of these are necessarily approximated — the
     seed data doesn't carry a ground-truth "was this the right department" signal, for
-    instance — see the per-KPI comments and the task doc's Delivered notes."""
+    instance — see the per-KPI comments and the task doc's Delivered notes.
+
+    Plain function (not the route handler) so other modules — e.g. the executive
+    dashboard tile — can reuse the same computation without an HTTP round-trip."""
     since = datetime.now(timezone.utc) - timedelta(days=days)
 
     total_decisions = db.execute(select(func.count()).select_from(Decision).where(Decision.created_at >= since)).scalar() or 0

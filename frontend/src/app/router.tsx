@@ -5,6 +5,7 @@ import { ModulePlaceholder } from './ModulePlaceholder'
 import { DesignSystemGallery } from './DesignSystemGallery'
 import { NAV_GROUPS } from '@/lib/rbac'
 import { PermissionGate } from '@/design-system/primitives'
+import { DashboardPage } from '@/features/dashboard/DashboardPage'
 import { RequestQueuePage } from '@/features/requests/RequestQueuePage'
 import { KnowledgeLibraryPage } from '@/features/knowledge/KnowledgeLibraryPage'
 import { KnowledgeGapsPage } from '@/features/knowledge/KnowledgeGapsPage'
@@ -36,12 +37,13 @@ const appLayoutRoute = createRoute({
   component: AppShell,
 })
 
-const COMING_IN: Record<string, number> = {
-  '/': 3,
-}
-
 // Real screens land here as increments ship; everything else stays a placeholder.
 const REAL_PAGES = {
+  '/': () => (
+    <PermissionGate module="dashboard">
+      <DashboardPage />
+    </PermissionGate>
+  ),
   '/requests': () => (
     <PermissionGate module="requests">
       <RequestQueuePage />
@@ -116,7 +118,7 @@ const moduleRoutes = NAV_GROUPS.flatMap((group) =>
       path: item.path,
       component:
         REAL_PAGES[item.path as keyof typeof REAL_PAGES] ??
-        (() => <ModulePlaceholder title={item.label} module={item.module} comingIn={COMING_IN[item.path] ?? 3} />),
+        (() => <ModulePlaceholder title={item.label} module={item.module} comingIn={3} />),
     }),
   ),
 )
