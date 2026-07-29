@@ -18,3 +18,7 @@ One file per increment from the build order in `project/ARIP Design.dc.html` §1
 
 All 9 increments delivered. This closes the originally-scoped build. #10 is a post-build
 addition (OpenRouter chat provider), not part of the original plan.
+
+This directory is build history/changelog — what shipped, when, what was verified. For
+how the app actually works today (data model, request lifecycle, AI pipeline, retrieval,
+email, RBAC/audit, frontend↔backend map), see [`../guideline/`](../guideline/README.md).
